@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Todo App</title>
+    <%= stylesheet_link_tag 'https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css' %>
+    <%= javascript_include_tag 'https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js' %>
+  </head>
+  <body>
+    <div style="margin-top: 50px;" class="ui container">
+      <h1 class="ui center aligned header">To Do App</h1>
+
+      <%= form_tag(todo_items_path, method: :post, class: 'ui form') do %>
+        <div class="field">
+          <label>Todo Title</label>
+          <%= text_field :title, '', placeholder: "Enter Todo..." %>
+        </div>
+        <%= submit_tag 'Add', class: 'ui blue button' %>
+      <% end %>
+
+      <hr>
+
+      <% @todo_items.each do |todo| %>
+        <div class="ui segment">
+          <p class="ui big header"><%= todo.id %> | <%= todo.title %></p>
+          <% if todo.complete == false %>
+            <span class="ui gray label">Not Complete</span>
+          <% else %>
+            <span class="ui green label">Completed</span>
+          <% end %>
+          <%= link_to 'Update', todo_item_path(todo), class: 'ui blue button', method: :patch %>
+          <%= link_to 'Delete', todo_item_path(todo), class: 'ui red button', method: :delete, data: { confirm: 'Are you sure?' } %>
+        </div>
+      <% end %>
+    </div>
+  </body>
+</html>
